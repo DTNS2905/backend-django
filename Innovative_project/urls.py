@@ -1,10 +1,18 @@
-from django.urls import path
-from django.contrib import admin
-from Innovative_project import views
+from django.urls import path, include
+from rest_framework_nested import routers
+from Innovative_project.views import UserView, ReadOnlyHostView, WriteOnlyHostView
+
+user_router = routers.SimpleRouter()
+user_router.register(UserView.prefix, UserView, basename="Users")
+
+read_host_router = routers.SimpleRouter()
+read_host_router.register(ReadOnlyHostView.prefix, ReadOnlyHostView, basename="ReadOnlyHostView")
+
+write_host_router = routers.SimpleRouter()
+write_host_router.register(WriteOnlyHostView.prefix, WriteOnlyHostView, basename="WriteOnlyHostView")
 
 urlpatterns = [
-    path('users/', views.UserList.as_view(), name='user-list'),
-    path('users/<int:pk>/', views.UserDetail.as_view(), name='user-detail'),
-    path('hosts/', views.HostCreate.as_view()),
-    path('admin/', admin.site.urls),
+    path(r"",  include(user_router.urls)),
+    path(r"",  include(read_host_router.urls)),
+    path(r"",  include(write_host_router.urls))
 ]

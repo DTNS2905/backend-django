@@ -1,10 +1,24 @@
 from django.contrib import admin
-from Innovative_project.users.models import User
+
+from Innovative_project.models import User, Host
 
 
+@admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'phone', 'host_id')  # Fields to display in list view
+    list_display = (
+        "username",
+        "email",
+        "phone",
+        "host",
+    )
 
 
-admin.site.register(User, UserAdmin)
-# Register your models here.
+@admin.register(Host)
+class HostAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "hostname",
+        "address",
+        "phone",
+        "email",
+    )
